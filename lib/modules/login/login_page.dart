@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_images.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
@@ -47,16 +48,29 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Image.asset(AppImages.logomini),
                     Padding(
-                      padding: const EdgeInsets.only(top: 30, left: 70, right: 70),
+                      padding:
+                          const EdgeInsets.only(top: 30, left: 70, right: 70),
                       child: Text("Organize seus boletos em um só lugar",
-                      textAlign: TextAlign.center,
+                          textAlign: TextAlign.center,
                           style: AppTextStyles.titleHome),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 40, right: 40, top: 40),
+                      padding:
+                          const EdgeInsets.only(left: 40, right: 40, top: 40),
                       child: SocialLoginButton(
-                        onTap: () {
-                          print("clicou");
+                        onTap: () async {
+                          GoogleSignIn _googleSignIn = GoogleSignIn(
+                            scopes: [
+                              'email',
+                              //'https://www.googleapis.com/auth/contacts.readonly',
+                            ],
+                          );
+                          try {
+                            final response = await _googleSignIn.signIn();
+                            print(response);
+                          } catch (error) {
+                            print(error);
+                          }
                         },
                       ),
                     )
